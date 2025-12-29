@@ -23,6 +23,22 @@ services:
     expose:
       - "4000"
 
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    depends_on:
+      - api-gateway
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "4000:3000"
+    depends_on:
+      - prometheus    
+
   nginx:
     image: nginx:alpine
     ports:
